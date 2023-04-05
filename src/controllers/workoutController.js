@@ -1,22 +1,33 @@
 const workoutService = require("../services/workoutService");
 
 const getAllWorkouts = (req, res) => {
-  const allWorkouts = workoutService.getAllWorkouts();
-  res.send({status: 'OK', data: allWorkouts});
+  try {
+    const allWorkouts = workoutService.getAllWorkouts();
+    res.send({status: 'OK', data: allWorkouts})
+  } catch (err){
+    res.status(err?.status || 500).send({status: 'FAILED', message: err?.message || err});
+  }
 }
 
 const getOneWorkout = (req, res) => {
   const { params: { workoutId } } = req;
-  if (!workoutId) return;
+  if (!workoutId)
+    res.status(400).send({status: 'FAILED', message: 'workoutId can not be empty'});
 
-  const oneWorkout = workoutService.getOneWorkout(workoutId);
-  res.send({status: 'OK', data: oneWorkout})
+  try {
+    const oneWorkout = workoutService.getOneWorkout(workoutId);
+    res.send({status: 'OK', data: oneWorkout})
+  } catch (err) {
+    res.status(err?.status || 500).send({status: 'FAILED', message: err?.message || err})
+  }
 }
 
 const createNewWorkout = (req, res) => {
   const { body } = req;
   if (!body.name || !body.mode || !body.equipment || !body.exercises)
-    return;
+    res.status(400).send({status: 'FAILED', data: {
+      error: "One of the following fields is missing or is emtpy in request body: 'name, 'mode', 'equipment', 'exercice'"
+    }});
   
   const newWorkout = {
     name: body.name,
@@ -25,8 +36,15 @@ const createNewWorkout = (req, res) => {
     exercises: body.exercises,
     trainerrTips: body.trainerTips
   }
-  const createdNewWorkout = workoutService.createNewWorkout(newWorkout);
-  res.status(201).send({status: 'OK', data: createdNewWorkout})
+
+  try {
+    const createdNewWorkout = workoutService.createNewWorkout(newWorkout);
+    res.status(201).send({status: 'OK', data: createdNewWorkout})
+  } catch (err) {
+    res.status(err?.status || 500).send({status: 'FAILED', data: {
+      error: err?.message || err
+    }});
+  }
 }
 
 const updateWorkout = (req, res) => {
@@ -35,10 +53,13 @@ const updateWorkout = (req, res) => {
     params: {workoutId}
    } = req
 
-   if (!workoutId) return;
+   if (!workoutId)
+    res.status(400).send({status: 'FAILED', message: 'workoutId can not be empty'});
 
-  const updateWorkout = workoutService.updateWorkout(workoutId, body);
-  res.send({status: 'OK', data: updateWorkout});
+  try {
+    const updateWorkout = workoutService.updateWorkout(workoutId, body);
+    res.status(200).send({status: 'OK', data: updateWorkout});    
+  } catch (err) {res.status(err?.status || 500).send({status: 'FAILED', message: err?.message || err})}
 }
 
 const deleteOneWorkout = (req, res) => {
@@ -46,10 +67,13 @@ const deleteOneWorkout = (req, res) => {
     params: { workoutId }
   } = req;
 
-  if (!workoutId) return;
+  if (!workoutId) 
+    res.status(400).send({status: 'FAILED', message: 'workoutId can not be empty'});
 
-  workoutService.deleteOneWorkout(workoutId);
-  res.status(204).send({status: 'OK'})
+  try {
+    workoutService.deleteOneWorkout(workoutId);
+    res.status(204).send({status: 'OK'})
+  } catch (err) {res.status(err?.status || 500).send({status: 'FAILED', message: err?.message || err})}
 }
 
 module.exports = {
