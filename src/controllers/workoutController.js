@@ -5,7 +5,7 @@ const getAllWorkouts = (req, res) => {
     const allWorkouts = workoutService.getAllWorkouts();
     res.send({status: 'OK', data: allWorkouts})
   } catch (err){
-    res.status(err?.status || 500).send({status: 'FAILED', message: err?.message || err});
+    res.status(err?.status || 500).send({status: 'FAILED', data: {error: err?.message || err}});
   }
 }
 
@@ -18,7 +18,7 @@ const getOneWorkout = (req, res) => {
     const oneWorkout = workoutService.getOneWorkout(workoutId);
     res.send({status: 'OK', data: oneWorkout})
   } catch (err) {
-    res.status(err?.status || 500).send({status: 'FAILED', message: err?.message || err})
+    res.status(err?.status || 500).send({status: 'FAILED', data: {error: err?.message || err}})
   }
 }
 
@@ -59,7 +59,7 @@ const updateWorkout = (req, res) => {
   try {
     const updateWorkout = workoutService.updateWorkout(workoutId, body);
     res.status(200).send({status: 'OK', data: updateWorkout});    
-  } catch (err) {res.status(err?.status || 500).send({status: 'FAILED', message: err?.message || err})}
+  } catch (err) {res.status(err?.status || 500).send({status: 'FAILED', data: {error: err?.message || err}})}
 }
 
 const deleteOneWorkout = (req, res) => {
@@ -73,7 +73,7 @@ const deleteOneWorkout = (req, res) => {
   try {
     workoutService.deleteOneWorkout(workoutId);
     res.status(204).send({status: 'OK'})
-  } catch (err) {res.status(err?.status || 500).send({status: 'FAILED', message: err?.message || err})}
+  } catch (err) {res.status(err?.status || 500).send({status: 'FAILED', data: {error: err?.message || err}})}
 }
 
 module.exports = {
