@@ -26,14 +26,14 @@ const getRecordForWorkout = (req, res) => {
 const addOneRecord = (req, res) => {
   const { body } = req
 
-  if (!body.wokroutId || !body.record)
+  if (!body.workout || !body.record)
     res.status(400).send({
       status: 'FAILED',
-      data: {error: 'One of the following parameters is missing or empty: wokroutId, record'}
+      data: {error: 'One of the following parameters is missing or empty: workout, record'}
     })
 
   const newRecord = {
-    workoutId: body.workoutId,
+    workout: body.workout,
     record: body.record
   }
 

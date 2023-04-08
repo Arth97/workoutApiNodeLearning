@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-// Fichero con listado de rutas
-
 const workoutController = require("../../controllers/workoutController");
 const recordController = require("../../controllers/recordController");
 

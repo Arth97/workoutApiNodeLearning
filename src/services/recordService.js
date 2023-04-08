@@ -13,7 +13,7 @@ const getRecordForWorkout = (workoutId) => {
 const addOneRecord = (newRecord) => {
   const recordToInsert = {
     id: uuid(),
-    workoutId: newRecord.workoutId,
+    workout: newRecord.workout,
     record: newRecord.record
   }
 
