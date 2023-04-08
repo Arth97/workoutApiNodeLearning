@@ -34,6 +34,7 @@ const createNewWorkout = (newWorkout) => {
     throw err;
   }
 }
+
 const updateWorkout = (workoutId, update) => {
   try {
     const updatedWorkout = Workout.updateWorkout(workoutId, update);

@@ -1,4 +1,5 @@
 const DB = require('./db.json')
+const { saveToDatabase } = require('./utils')
 
 const getRecordForWorkout = (workoutId) => {
   try {
@@ -18,4 +19,20 @@ const getRecordForWorkout = (workoutId) => {
   }
 }
 
-module.exports = { getRecordForWorkout }
+const addOneRecord = (newRecord) => {
+  try {
+    DB.records.push(newRecord);
+    saveToDatabase(DB);
+    return newRecord
+  } catch (err) {
+    throw {
+      status: 500,
+      message: err?.message || err
+    }
+  }
+}
+
+module.exports = { 
+  getRecordForWorkout,
+  addOneRecord
+}
