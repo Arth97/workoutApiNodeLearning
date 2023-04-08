@@ -9,7 +9,7 @@ const getAllWorkouts = () => {
   } catch (err) {
     throw {
       status: 500,
-      message: err
+      message: err?.message || err
     };
   }
 }

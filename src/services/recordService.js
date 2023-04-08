@@ -1,6 +1,14 @@
 const Record = require("../database/Record")
 const { v4: uuid } = require("uuid");
 
+const getAllRecords = () => {
+  try {
+    return Record.getAllRecords();
+  } catch (err) {
+    throw err;
+  }
+}
+
 const getRecordForWorkout = (workoutId) => {
   try {
     const record = Record.getRecordForWorkout(workoutId);
@@ -26,5 +34,6 @@ const addOneRecord = (newRecord) => {
 
 module.exports = { 
   getRecordForWorkout,
-  addOneRecord
+  addOneRecord,
+  getAllRecords
 }

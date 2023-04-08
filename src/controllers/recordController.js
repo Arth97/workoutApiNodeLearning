@@ -1,5 +1,20 @@
 const recordService = require("../services/recordService")
 
+const getAllRecords = (req, res) => {
+  try {
+    const allRecords = recordService.getAllRecords()
+    res.status(200).send({
+      status: 'OK',
+      data: allRecords
+    })
+  } catch (err) {
+    res.status(err?.status || 500).send({
+      status: 'FAILED',
+      data: {error: err?.message || err}
+    })
+  }
+}
+
 const getRecordForWorkout = (req, res) => {
   const workoutId = req.params.workoutId
 
@@ -54,5 +69,6 @@ const addOneRecord = (req, res) => {
 
 module.exports = { 
   getRecordForWorkout,
-  addOneRecord
+  addOneRecord,
+  getAllRecords
 }

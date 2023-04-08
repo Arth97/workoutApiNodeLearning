@@ -1,6 +1,17 @@
 const DB = require('./db.json')
 const { saveToDatabase } = require('./utils')
 
+const getAllRecords = () => {
+  try {
+    return DB.records;
+  } catch (err) {
+    throw {
+      status: 500,
+      message: err?.message || err
+    }
+  }
+}
+
 const getRecordForWorkout = (workoutId) => {
   try {
     const record = DB.records.filter(record => record.workout == workoutId)
@@ -11,10 +22,10 @@ const getRecordForWorkout = (workoutId) => {
       }
     return record;
 
-  } catch (error) {
+  } catch (err) {
     throw {
-      status: error?.status || 500,
-      message: error?.message || error
+      status: err?.status || 500,
+      message: err?.message || err
     }
   }
 }
@@ -34,5 +45,6 @@ const addOneRecord = (newRecord) => {
 
 module.exports = { 
   getRecordForWorkout,
-  addOneRecord
+  addOneRecord,
+  getAllRecords
 }
