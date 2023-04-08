@@ -11,8 +11,11 @@ const getAllWorkouts = (req, res) => {
 
 const getOneWorkout = (req, res) => {
   const { params: { workoutId } } = req;
-  if (!workoutId)
+
+  if (!workoutId) {
     res.status(400).send({status: 'FAILED', message: 'workoutId can not be empty'});
+    return;
+  }
 
   try {
     const oneWorkout = workoutService.getOneWorkout(workoutId);
@@ -24,10 +27,12 @@ const getOneWorkout = (req, res) => {
 
 const createNewWorkout = (req, res) => {
   const { body } = req;
-  if (!body.name || !body.mode || !body.equipment || !body.exercises)
+  if (!body.name || !body.mode || !body.equipment || !body.exercises) {
     res.status(400).send({status: 'FAILED', data: {
       error: "One of the following fields is missing or is emtpy in request body: 'name, 'mode', 'equipment', 'exercice'"
     }});
+    return;
+  }
   
   const newWorkout = {
     name: body.name,
@@ -53,8 +58,10 @@ const updateWorkout = (req, res) => {
     params: {workoutId}
    } = req
 
-   if (!workoutId)
+   if (!workoutId) {
     res.status(400).send({status: 'FAILED', message: 'workoutId can not be empty'});
+    return;
+   }
 
   try {
     const updateWorkout = workoutService.updateWorkout(workoutId, body);
@@ -67,8 +74,10 @@ const deleteOneWorkout = (req, res) => {
     params: { workoutId }
   } = req;
 
-  if (!workoutId) 
+  if (!workoutId) {
     res.status(400).send({status: 'FAILED', message: 'workoutId can not be empty'});
+    return;
+  }
 
   try {
     workoutService.deleteOneWorkout(workoutId);
