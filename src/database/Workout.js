@@ -14,16 +14,22 @@ const getAllWorkouts = () => {
   }
 }
 
-const getOneWorkout = (id) => {
+const getOneWorkout = (workoutId) => {
   try {
-    return DB.workouts.find((wk) => wk.id == id);
-  } catch (err) {
-    throw {
-      status: 400,
-      message: `Can't find workout with the id '${id}'`
-    };
+    const workout = DB.workouts.find((workout) => workout.id === workoutId);
+
+    if (!workout) {
+      throw {
+        status: 400,
+        message: `Can't find workout with the id '${workoutId}'`,
+      };
+    }
+
+    return workout;
+  } catch (error) {
+    throw { status: error?.status || 500, message: error?.message || error };
   }
-}
+};
 
 const createNewWorkout = (newWorkout) => {
   const isAlreadyAdded = DB.workouts.findIndex((workout) => workout.name === newWorkout.name) > -1
