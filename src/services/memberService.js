@@ -1,14 +1,22 @@
-const Record = require('../database/Member')
+const Member = require('../database/Member')
 
 const getAllMembers = () => {
   try {
-    return Record.getAllMembers()
+    return Member.getAllMembers()
   } catch (err) {
     throw err;
   }
 }
 
+const getMemberByName = (name) => {
+  try {
+    return Member.getMemberByName(name)
+  } catch (err) {
+    throw err;
+  }
+} 
 
 module.exports = {
-  getAllMembers
+  getAllMembers,
+  getMemberByName
 }
