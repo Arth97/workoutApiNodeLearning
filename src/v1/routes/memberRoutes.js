@@ -1,9 +1,12 @@
 const express = require('express');
-const router = express.Router();
+const apicache = require('apicache');
 
 const memberController = require('../../controllers/memberController')
 
-router.get("/", memberController.getAllMembers)
+const router = express.Router();
+const cache = apicache.middleware;
+
+router.get("/", cache("2 minutes"), memberController.getAllMembers)
 router.get("/name/:name", memberController.getMemberByName)
 router.get("/email/:email", memberController.getMemberByEmail)
 
