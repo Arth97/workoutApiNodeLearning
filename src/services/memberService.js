@@ -16,7 +16,16 @@ const getMemberByName = (name) => {
   }
 } 
 
+const getMemberByEmail = (email) => {
+  try {
+    return Member.getMemberByEmail(email)
+  } catch (err) {
+    throw err;
+  }
+} 
+
 module.exports = {
   getAllMembers,
-  getMemberByName
+  getMemberByName,
+  getMemberByEmail
 }

@@ -32,7 +32,28 @@ const getMemberByName = (name) => {
   }
 }
 
+const getMemberByEmail = (email) => {
+  try {
+    const member =  DB.members.find(member => member.email == email);
+    
+    if (!member) {
+      throw {
+        status: 400,
+        message: `Cant't find member with email '${email}'`
+      }
+    }
+    return member;
+
+  } catch (err) {
+    throw {
+      status: 500,
+      message: err?.message || err
+    }
+  }
+}
+
 module.exports = {
   getAllMembers,
-  getMemberByName
+  getMemberByName,
+  getMemberByEmail
 }

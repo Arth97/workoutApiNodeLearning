@@ -42,8 +42,36 @@ const getMemberByName = (req, res) => {
   }
 }
 
+const getMemberByEmail = (req, res) => {
+  const {
+    params: { email }
+  } = req
+  
+  if(!email) {
+    res.status(400).send({
+      status: 'FAILED',
+      data: { error: 'The following parameter empty or missing: email' }
+    })
+    return;
+  }
+
+  try {
+    const member = memberService.getMemberByEmail(email)
+    res.status(200).send({
+      status: 'OK',
+      data: member
+    })
+  } catch (err) {
+    res.status(err?.status || 500).send({
+      status: 'FAILED',
+      data: { error: err?.message || err }
+    })
+  }
+}
+
 
 module.exports = {
   getAllMembers,
-  getMemberByName
+  getMemberByName,
+  getMemberByEmail
 }
