@@ -7,13 +7,15 @@ const getAllWorkouts = (filterParams) => {
   try {
     let workouts = DB.workouts;
     if (filterParams.mode)
-      return DB.workouts.filter(workout =>
+      workouts = workouts.filter(workout =>
         workout.mode.toLowerCase().includes(filterParams.mode)
       );
     if (filterParams.equipment)
-      return DB.workouts.filter(workout =>
+      workouts = workouts.filter(workout =>
         workout.equipment.includes(filterParams.equipment)
       )
+    if (filterParams.length)
+      workouts = workouts.slice(0, filterParams.length)
     return workouts;
   } catch (err) {
     throw {
